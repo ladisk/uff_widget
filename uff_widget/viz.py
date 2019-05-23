@@ -70,6 +70,7 @@ def viz (file,uffdict,data,dinfo=None):
             
         widgets.interactive_output(f,{'buttons':buttons,'drop':drop})
         display(widgets.HBox([ipv.gcf(),widgets.VBox([buttons,drop])]))
+        return buttons,drop
     
     if type(data)==np.ndarray:
         if data.ndim==3:#problems for more than 100 animating points
