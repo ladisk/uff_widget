@@ -1,4 +1,3 @@
-import numpy as numpy
 import pyuff
 
 def cleanup(dic):
@@ -25,20 +24,28 @@ def get_points(path):
     
     nodes55 = {'2':[], '3':[], '5':[], '7':[]}
     nodes58 = {'0':[], '1':[], '2':[], '3':[], '4':[], '6':[]}
+    dict58 = {'0':[], '1':[], '2':[], '3':[], '4':[], '6':[]}
+    dict55 = {'2':[], '3':[], '5':[], '7':[]}
+    keys_58 = ['0', '1', '2', '3', '4', '6']
+    keys_55 = ['2', '3', '5', '7']
     for i in uffdict['58']:
-        node = file.read_sets(i)['ref_node'] #TODO for multiple response analysis
+        node = file.read_sets(i)['ref_node'] #lahko bi bil tudi resp_node, če bi bil rezultati določeni v točkah odziva
         f_type = file.read_sets(i)['func_type']
+        if set(str(f_type)).issubset(set(keys_58)):
+            dict58[str(f_type)].append(i)
         if set([node]).issubset(nodes58[str(f_type)])==False:
             if set([float(node)]).issubset(file.read_sets(uffdict['15'])['node_nums']):
                 nodes58[str(f_type)].append(node)
     for i in uffdict['55']:
-        node = file.read_sets(i)['node_nums'] #TODO for multiple response analysis
+        node = file.read_sets(i)['node_nums'] #lahko bi bil tudi resp_node, če bi bil rezultati določeni v točkah odziva
         d_type = file.read_sets(i)['data_type']
+        if set(str(d_type)).issubset(set(keys_55)):
+            dict55[str(d_type)].append(i)
         for n in node:
             if set([n]).issubset(nodes55[str(d_type)])==False:
                 if set([float(n)]).issubset(file.read_sets(uffdict['15'])['node_nums']):
                     nodes55[str(d_type)].append(int(n))
-    return file,uffdict,{'55':cleanup(nodes55),'58':cleanup(nodes58)}
+    return file,uffdict,{'55':cleanup(nodes55),'58':cleanup(nodes58)},{'55':cleanup(dict55),'58':cleanup(dict58)}
 
 def get_info(file,uffdict,nodes):
     names55 ={'2': 'normal mode',
