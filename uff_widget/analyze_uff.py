@@ -38,4 +38,26 @@ def get_points(path):
             if set([n]).issubset(nodes55[str(d_type)])==False:
                 if set([float(n)]).issubset(file.read_sets(uffdict['15'])['node_nums']):
                     nodes55[str(d_type)].append(int(n))
-    return {'55':cleanup(nodes55),'58':cleanup(nodes58)}
+    return file,uffdict,{'55':cleanup(nodes55),'58':cleanup(nodes58)}
+
+def get_info(file,uffdict,nodes):
+    names55 ={'2': 'normal mode',
+              '3': 'complex eigenvalue first order (displacement)',
+              '5': 'frequency response',
+              '7': 'complex eigenvalue second order (velocity)'}
+    names58 ={'0': 'General or Unknown',
+              '1': 'Time Response',
+              '2': 'Auto Spectrum',
+              '3': 'Cross Spectrum',
+              '4': 'Frequency Response Function',
+              '6': 'complex eigenvalue second order (velocity)'}
+    for i in uffdict['151']:
+        print('Name: %s \nDescription: %s'%(file.read_sets(i)['model_name'],file.read_sets(i)['description']))
+    for i in range(len(uffdict['15'])):
+        print('In %i. dataset15 is data for %i points'%(i+1,len(file.read_sets(uffdict['15'][i])['node_nums'])))
+    print('In datasets 55 are data for:')
+    for key in nodes['55'].keys():    
+        print('                             %s in %i points'%(names55[key],len(nodes['55'][key])))
+    print('In datasets 58 are data for:')
+    for key in nodes['58'].keys():    
+        print('                             %s in %i points'%(names58[key],len(nodes['58'][key])))
