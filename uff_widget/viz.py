@@ -67,7 +67,6 @@ def viz (file,uffdict,data,dinfo=None):
                 a.y=y[data[dset][in_names58[drop]]]
                 a.z=z[data[dset][in_names58[drop]]]
                 a.color='green'
-            
         widgets.interactive_output(f,{'buttons':buttons,'drop':drop})
         display(widgets.HBox([ipv.gcf(),widgets.VBox([buttons,drop])]))
         return buttons,drop
@@ -83,34 +82,38 @@ def viz (file,uffdict,data,dinfo=None):
                 ipv.show()
 
         if data.ndim==4:
-            X = np.transpose(np.array([x[i]+data[0,i,:,:] for i in range(data.shape[1])]),(1,2,0))
-            Y = np.transpose(np.array([y[i]+data[1,i,:,:] for i in range(data.shape[1])]),(1,2,0))
-            Z = np.transpose(np.array([z[i]+data[2,i,:,:] for i in range(data.shape[1])]),(1,2,0))
-            
             if dinfo['dset']==58:
                 df=dinfo['df']
-                def show_freq(freq):
+                def show_freq(freq,scale=1):
                     f=int(freq/df-1)
-                    anim = s(X[f],Y[f],Z[f])
+                    X = np.transpose(np.array([x[i]+data[0,i,f,:]*scale for i in range(data.shape[1])]))
+                    Y = np.transpose(np.array([y[i]+data[1,i,f,:]*scale for i in range(data.shape[1])]))
+                    Z = np.transpose(np.array([z[i]+data[2,i,f,:]*scale for i in range(data.shape[1])]))
+                    anim = s(X,Y,Z)
                     ipv.animation_control(anim)
                     ipv.show()
+                scale = widgets.BoundedIntText(step=1,value=1,min=1,max=1000,description='scale by:')
                 freq = widgets.BoundedIntText(min=0*df,max=(len(data[0,0,:,0])-1)*df,step=df,description='Hz')
-                out1 = widgets.interactive_output(show_freq, {'freq':freq})
-                display(widgets.HBox([out1,widgets.VBox([widgets.Label('Insert frequence by increment: %f Hz'%(df)),freq])]))
+                out1 = widgets.interactive_output(show_freq, {'freq':freq,'scale':scale})
+                display(widgets.HBox([out1,widgets.VBox([widgets.Label('Insert frequence by increment: %f Hz'%(df)),freq,scale])]))
             
             if dinfo['dset']==55:
                 mfreq=dinfo['freq']
-                def norm_freq(freq):
+                def norm_freq(freq,scale=1):
                     f=mfreq.index(freq)
-                    anim = s(X[f],Y[f],Z[f])
+                    X = np.transpose(np.array([x[i]+data[0,i,f,:]*scale for i in range(data.shape[1])]))
+                    Y = np.transpose(np.array([y[i]+data[1,i,f,:]*scale for i in range(data.shape[1])]))
+                    Z = np.transpose(np.array([z[i]+data[2,i,f,:]*scale for i in range(data.shape[1])]))
+                    anim = s(X,Y,Z)
                     ipv.animation_control(anim)
                     ipv.show()
                 def mshape(freq):
                     m=mfreq.index(freq)+1
-                    display(widgets.Label('Mode shape: %i'%(m)))                
+                    display(widgets.Label('Mode shape: %i'%(m)))
                 freq = widgets.Dropdown(options=mfreq)
+                scale = widgets.BoundedIntText(step=1,value=1,min=1,max=1000,description='scale by:')
                 out1 = widgets.interactive_output(mshape, {'freq':freq})
-                out2 = widgets.interactive_output(norm_freq, {'freq':freq})
-                display(widgets.HBox([widgets.VBox([out1,out2]),widgets.VBox([widgets.Label('Chose normal freqence'),widgets.HBox([freq,widgets.Label('Hz')])])]))
+                out2 = widgets.interactive_output(norm_freq, {'freq':freq,'scale':scale})
+                display(widgets.HBox([widgets.VBox([out1,out2]),widgets.VBox([widgets.Label('Chose normal freqence'),widgets.HBox([freq,widgets.Label('Hz')]),scale])]))
         else:
             print('error')
