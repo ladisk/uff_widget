@@ -9,7 +9,7 @@ def cleanup(dic):
         del dic[key]
     return dic
 
-def get_points(path):
+def analyze(path):
     file=pyuff.UFF(path)
     sets = file.get_set_types()
     sup_sets = file.get_supported_sets()
