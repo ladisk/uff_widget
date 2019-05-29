@@ -24,14 +24,14 @@ def ds58(file,uffdict,dict58,drop):
         return data, {'dt':dt}
 
     else:#for freqence response
-        data = np.zeros((3,len(file.read_sets(uffdict['15'][0])['node_nums']),len(file.read_sets(dict58[d][0])['num_pts']),2))
+        data = np.zeros((3,len(file.read_sets(uffdict['15'][0])['node_nums']),file.read_sets(dict58[d][0])['num_pts'],2))
         df=file.read_sets(dict58[d][0])['abscissa_spacing']
         for index in dict58[d]:
             rset = file.read_sets(index)
             data_i = np.zeros((3,rset['num_pts']))
             direc = np.sign(rset['ref_dir'])*(np.abs(rset['ref_dir'])-1)
             node = rset['ref_node']
-            data_i[abs(direc),:] = np.sign(direc)*rset['x']
+            data_i[abs(direc),:] = np.sign(direc)*rset['data']
             data_i=np.matmul(np.transpose(file.read_sets(uffdict['2420'])['CS_matrices'][int(file.read_sets(uffdict['15'])['disp_cs'][node])]),data_i)
             data[:,node,:,0]+=data_i
             data[:,node,:,1]+=-data_i
@@ -52,9 +52,10 @@ def ds55(file,uffdict,dict55,drop):
         data_i[0,:] = rset['r1']
         data_i[1,:] = rset['r2']
         data_i[2,:] = rset['r3']
-        data[:,:,i,0] += -data_i
+        data[:,rset['node_nums'].astype('int'),i,0] += -data_i
         nfreq.append(rset['freq'])
     for i in range(len(file.read_sets(uffdict['15'][0])['node_nums'])):
-        data[:,i,:,0] = np.matmul(np.transpose(file.read_sets(uffdict['2420'])['CS_matrices'][i]),data[:,i,:,0])
+        j=int(file.read_sets(uffdict['15'][0])['disp_cs'][i])
+        data[:,i,:,0] = np.matmul(np.transpose(file.read_sets(uffdict['2420'])['CS_matrices'][j]),data[:,i,:,0])
     data[:,:,:,1] = -data[:,:,:,0]
-    return data, {'dset':58, 'freq':nfreq}
+    return data, {'dset':55, 'freq':nfreq}
