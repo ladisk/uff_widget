@@ -32,9 +32,9 @@ def viz (file,uffdict,data,dinfo=None):
     Returns
     -------
     buttons : widget
-        ipython buttons widget with options 'Function data', 'Analysis'
+        ipython buttons widget with options 'Function data', 'Analysis'. Only when data is dictionary
     drop : widget
-        ipython drodown widget with options according to the value of buttons
+        ipython drodown widget with options according to the value of buttons. Only when data is dictionary
     widget output
         output with figure and control witgets
     """
