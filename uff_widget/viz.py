@@ -5,6 +5,39 @@ from IPython.display import display
 import pyuff
 
 def viz (file,uffdict,data,dinfo=None):
+    """viz Function for vizualizating points from dataset 15 with
+    information from input data and difno. If data is dictionary
+    with indices of nodes separately for dataset type (55 and 58)
+    and stored data type, points are marked regarding to choice in
+    buttons and dropdown menu. If data is numpy array, movement of
+    points in animated regarding to input data and dinfo.
+
+    
+    Parameters
+    ----------
+    file : UFF class variable
+        variable for access to data stored in uff
+    uffdict : dictionary
+        dictionary wirt all in file existing dataset types as keys
+    data : numpy array 
+        numpy array with size (three directions,,number of all points, 
+        length of mesurment) for time response 
+        numpy array with size (three directions,,number of all points, 
+        length of mesurment,two extremes) for frequence response
+    dinfo : ditionary, optional
+        By default None. Dictionary with keys 'dset'(value 58 or 55) and 
+        'dt' or 'df' of 'freq'. Frst two are abscissa spaceing for 
+        dataset 58, freq is list of frequences for dataset 55. 
+    
+    Returns
+    -------
+    buttons : widget
+        ipython buttons widget with options 'Function data', 'Analysis'
+    drop : widget
+        ipython drodown widget with options according to the value of buttons
+    widget output
+        output with figure and control witgets
+    """
     
     names55 ={'2': 'normal mode',
               '3': 'complex eigenvalue first order (displacement)',

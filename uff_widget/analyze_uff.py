@@ -1,6 +1,18 @@
 import pyuff
 
 def cleanup(dic):
+    """cleanup deletes all empty keys in input dictionary
+    
+    Parameters
+    ----------
+    dic : dictionary
+        arbitrary python dictionary
+    
+    Returns
+    -------
+    dictionary
+        input dictionary without empty keys
+    """
     re_keys = []
     for key in dic.keys():
         if dic[key] == []:
@@ -10,6 +22,30 @@ def cleanup(dic):
     return dic
 
 def analyze(path):
+    """analyze 
+    Reads whole uff on input path. Indices of datasets are sorted
+    by dataset type and by stored data type in data sets 58 and 55.
+    Defined are indices of points with data realating to the array
+    of points from dataset 15.
+    
+    Parameters
+    ----------
+    path : string
+        path to a UFF to be analysed
+    
+    Returns
+    -------
+    file: UFF class variable
+    uffdict: dictionary
+        dictionary wirt all in file existing dataset types as keys
+        and indices of datasets sorted by type into belonging key
+    dictionary
+        dictionary with dictionaries for dataset type 55 and 58 with
+        nodes indices
+    dictionary
+        dictionary with dictionar for dataset type 55 and 58 with
+        dataset indices by stored data type
+    """
     file=pyuff.UFF(path)
     sets = file.get_set_types()
     sup_sets = file.get_supported_sets()
@@ -48,6 +84,18 @@ def analyze(path):
     return file,uffdict,{'55':cleanup(nodes55),'58':cleanup(nodes58)},{'55':cleanup(dict55),'58':cleanup(dict58)}
 
 def get_info(file,uffdict,nodes):
+    """get_info prints out name and description of model stored in dataset 151
+    
+    Parameters
+    ----------
+    file : UFF class variable
+        variable for access to data stored in uff
+    uffdict : dictionary
+        dictionary wirt all in file existing dataset types as keys
+    nodes : dictionary
+        dictionary with dictionaries for dataset type 55 and 58 with
+        nodes indices
+    """
     names55 ={'2': 'normal mode',
               '3': 'complex eigenvalue first order (displacement)',
               '5': 'frequency response',
