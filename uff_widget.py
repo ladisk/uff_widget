@@ -357,7 +357,7 @@ class widgetuff:
         scb = widgets.Checkbox(value=False,description='Shadow',disabled=True)
         rfcb = widgets.Checkbox(value=False,description='Reference nodes')
         rscb = widgets.Checkbox(value=False,description='Response nodes')
-        cscb = widgets.Checkbox(value=False,description='Coordsinate systems')
+        cscb = widgets.Checkbox(value=False,description='Coordinate systems')
         Hcb = widgets.Checkbox(value=False,description='Harmonic analysis')
         Mcb = widgets.Checkbox(value=False,description='Modal analysis')
         
