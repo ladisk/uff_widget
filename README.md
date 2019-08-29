@@ -11,6 +11,7 @@ A UFF file is required to use the package
 
 ## initialization
 uff_1=uff_widget.widgetuff(path)
+uff_1.read_uff()
 
 ## owerview of information about considered model/structure
 uff_1.get_info()
