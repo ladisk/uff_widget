@@ -7,6 +7,8 @@ from IPython.display import display
 import warnings
 warnings.filterwarnings('ignore')
 
+__version__ = '0.1'
+
 class widgetuff:
     """ 
     Manage to read and in jupyter notebook visualize data from UFF. It can extract
@@ -435,7 +437,10 @@ class widgetuff:
                             li = lines(x=X,y=Y,z=Z)
                             for i in li:
                                 anim.append(i)
-                        ipv.animation_control(anim)
+                        try:
+                            ipv.animation_control(anim)
+                        except ValueError:
+                            title.children=[widgets.Label('Select points or lines!')]
                 if Hcb.value:
                     data,dinfo=self._get_data58(drop)
                     df=dinfo['df']
@@ -454,7 +459,10 @@ class widgetuff:
                             li = lines(x=X,y=Y,z=Z)
                             for i in li:
                                 anim.append(i)
-                        ipv.animation_control(anim)
+                        try:
+                            ipv.animation_control(anim)
+                        except ValueError:
+                            title.children=[widgets.Label('Select points or lines!')]
                     
             else:
                 if p:
