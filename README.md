@@ -1,5 +1,5 @@
 # uff_widget
-Package for vizualizing a UFF file used in vibration testing.
+Package for visualizing a UFF file used in vibration testing.
 
 It is constructed from 4 basic methodes:
 
