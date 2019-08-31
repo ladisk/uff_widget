@@ -1,7 +1,7 @@
 # uff_widget
 Package for vizualizing a UFF file used in vibration testing.
 
-It is constructed from 4 baic methodes:
+It is constructed from 4 basic methodes:
 
 read_uff
 
@@ -28,6 +28,6 @@ uff_1.show_frf()
 uff_1.show3D()
 
 ## Constructing a UFF file
-For help with constructing corect UFF file check files in folder Test data and
-documentation of pyuff(https://github.com/openmodal/pyuff) and
+For help with preparation of the UFF file, check files in the folder `test_data` and
+documentation of the package `pyuff` (https://github.com/openmodal/pyuff) and
 documentation of Universal File Format (http://sdrl.uc.edu/sdrl/referenceinfo/universalfileformats)
