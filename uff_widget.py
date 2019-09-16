@@ -7,7 +7,7 @@ from IPython.display import display
 import warnings
 warnings.filterwarnings('ignore')
 
-__version__ = '0.2'
+__version__ = '0.3'
 
 class widgetuff:
     """ 
